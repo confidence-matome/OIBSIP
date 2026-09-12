@@ -1,114 +1,157 @@
-# OASIS Infobyte Security Analyst Internship — Task 1: Network Scanning with Nmap
+# OASIS Infobyte Security Analyst Internship — Task 1
 
-## Context
+## Basic Network Scanning with Nmap
 
-As part of the OASIS Infobyte Security Analyst Internship, this task focused on performing basic network reconnaissance and identifying services running on a target system.
+**Assessment Date:** 12 September 2026
+**Target IP:** `192.168.237.129`
+**Testing Machine:** Kali Linux
+**Target Machine:** Ubuntu Linux
+**Network:** VMware Host-only Network
 
-A Kali Linux machine was used as the testing machine, and an Ubuntu machine was used as the target in a controlled virtual lab environment.
+---
 
-## Goal
+## 1. Context
 
-The goal was to use **Nmap** to:
+As part of the OASIS Infobyte Security Analyst Internship, this task involved performing basic network reconnaissance against an Ubuntu Linux target in an isolated VMware Host-only network.
 
-* Identify open ports on the target.
-* Identify running services and their versions.
-* Perform basic operating system detection.
-* Record and document the scan results.
+The objective was to identify reachable services, determine service versions, and perform basic operating system detection using Nmap.
 
-## Lab Environment
+---
 
-| Component       | Details            |
-| --------------- | ------------------ |
-| Testing Machine | Kali Linux         |
-| Target Machine  | Ubuntu Linux       |
-| Tool            | Nmap 7.99          |
-| Target IP       | 192.168.237.129    |
-| Network         | VMware Host-Only   |
-| Web Server      | Apache HTTP Server |
+## 2. Goal
 
-## Tools
+The goals of this task were to:
+
+* Identify open, closed, and filtered TCP ports.
+* Identify services running on accessible ports.
+* Determine service and version information.
+* Perform basic OS detection.
+* Document the findings clearly.
+
+---
+
+## 3. Tools
 
 ### Nmap
 
-Nmap was used because it is a standard network scanning and reconnaissance tool used to identify open ports, services, versions, and other information about a target system.
+Nmap was used for network discovery, port scanning, service/version detection, and OS detection.
 
-## Scans Performed
+Commands used:
 
-### 1. Basic Port Scan
+```bash
+nmap 192.168.237.129
+```
 
-A basic Nmap scan was performed to identify open ports on the Ubuntu target.
+```bash
+nmap -sV 192.168.237.129
+```
 
-**Finding:** TCP port 80 was identified as open.
+```bash
+sudo nmap -O 192.168.237.129
+```
 
-![Basic Nmap Scan](screenshots/01-basic-scan.png)
+---
 
-### 2. Service and Version Detection
+## 4. Findings
 
-Nmap service and version detection was used to identify the service running on the open port.
+### Basic Scan
 
-**Finding:** Port 80 was running Apache HTTP Server.
+The target host was reachable.
 
-![Service Version Scan](screenshots/02-service-version-scan.png)
+| Port    | State  | Service |
+| ------- | ------ | ------- |
+| 22/tcp  | Closed | SSH     |
+| 80/tcp  | Open   | HTTP    |
+| 443/tcp | Closed | HTTPS   |
 
-### 3. Operating System Detection
+Nmap also reported **997 filtered TCP ports** with no response.
 
-Nmap OS detection was performed to gather information about the target operating system.
+---
 
-**Finding:** Nmap attempted to identify the operating system, but an exact OS match was not available from the scan.
+### Service and Version Detection
 
-![OS Detection](screenshots/03-os-detection.png)
+Service detection identified the web service running on port 80 as:
 
-## Findings
+```text
+Apache httpd 2.4.66 ((Ubuntu))
+```
 
-The scan identified:
+This confirmed that the target was running an Apache HTTP web server.
 
-* **Port 80/tcp:** Open
-* **Service:** HTTP
-* **Web Server:** Apache HTTP Server
-* **Web Page:** Apache2 Ubuntu Default Page
-* **Port 443/tcp:** Closed
-* Additional HTTP enumeration showed restricted responses such as `403 Forbidden` for some server paths.
+---
 
-The detailed Nmap output is available in [`nmap_scan_results.txt`](nmap_scan_results.txt).
+### OS Detection
 
-## Recommendations
+Nmap produced several Linux-based OS guesses with confidence levels between **88% and 90%**.
+
+However, Nmap reported:
+
+```text
+No exact OS matches for host (test conditions non-ideal).
+```
+
+Therefore, the exact operating system version was **not confirmed** by the scan.
+
+---
+
+## 5. Security Observations
+
+The scan showed that:
+
+* HTTP on port 80 was accessible.
+* SSH on port 22 was closed.
+* HTTPS on port 443 was closed.
+* Most scanned TCP ports were filtered.
+* The web server disclosed its Apache version during service detection.
+* OS detection provided Linux-based guesses but could not confirm an exact OS.
+
+The exposed HTTP service should be reviewed to ensure that the web server is securely configured and does not expose unnecessary information.
+
+---
+
+## 6. Evidence
+
+The following screenshots contain the original Nmap scan results:
+
+```text
+screenshots/
+├── 01-basic-scan.png
+├── 02-service-version-scan.png
+└── 03-os-detection.png
+```
+
+Detailed scan output is also available in:
+
+```text
+nmap_scan_results.txt
+```
+
+---
+
+## 7. Recommendation
 
 Based on the scan results:
 
-1. Only required services should be exposed on the target system.
-2. Unnecessary ports and services should be disabled.
-3. Apache should be kept updated with security patches.
-4. Web server configuration should be reviewed to ensure sensitive directories and files are not unnecessarily accessible.
-5. Regular network scanning should be performed to identify unexpected services.
+1. Keep unnecessary services and ports closed.
+2. Review the Apache web server configuration.
+3. Consider limiting unnecessary version disclosure where appropriate.
+4. Ensure the exposed HTTP service is regularly patched and securely configured.
+5. Investigate filtered ports if additional services are expected to be accessible.
 
-## Reflection
+---
 
-This task helped me understand the basics of network reconnaissance using Nmap. I learned how to identify open ports, determine running services and versions, and perform basic OS detection.
+## 8. Reflection
 
-It also showed me how reconnaissance can help a security analyst understand the attack surface of a system before investigating or securing it.
+This task helped me practice basic network reconnaissance using Nmap in an isolated lab environment.
 
-## Evidence
+I learned how to identify open, closed, and filtered ports, perform service and version detection, and interpret OS detection results without assuming that an unconfirmed result is accurate.
 
-The `screenshots/` folder contains the practical evidence from the lab:
+The exercise also reinforced the importance of documenting findings based on actual scan evidence.
 
-* `01-basic-scan.png` — Basic port scan
-* `02-service-version-scan.png` — Service and version detection
-* `03-os-detection.png` — OS detection
+---
 
-The raw scan output is stored in:
+## 9. Conclusion
 
-* `nmap_scan_results.txt`
+The Nmap assessment identified **port 80/tcp as open**, with **Apache httpd 2.4.66 running on Ubuntu**. Ports 22 and 443 were closed, while 997 TCP ports were reported as filtered.
 
-## Repository Structure
-
-```text
-CyberSecurity-Task1-NetworkScanningNmap/
-│
-├── screenshots/
-│   ├── 01-basic-scan.png
-│   ├── 02-service-version-scan.png
-│   └── 03-os-detection.png
-│
-├── README.md
-└── nmap_scan_results.txt
-```
+The OS detection suggested a Linux-based system but did not provide an exact OS match. These results provide a basic view of the target's network exposure and services.
