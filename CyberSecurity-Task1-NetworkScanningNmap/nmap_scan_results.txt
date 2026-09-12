@@ -8,8 +8,9 @@ Target Machine: Ubuntu Linux
 Network: VMware Host-only Network
 
 ==================================================
+
 1. BASIC NMAP SCAN
-==================================================
+   ==================================================
 
 Command:
 nmap 192.168.237.129
@@ -22,7 +23,7 @@ Open Port:
 
 ==================================================
 2. SERVICE VERSION SCAN
-==================================================
+=======================
 
 Command:
 nmap -sV 192.168.237.129
@@ -30,9 +31,12 @@ nmap -sV 192.168.237.129
 Result:
 80/tcp    open    http    Apache httpd 2.4.66 (Ubuntu)
 
+Service Identified:
+Apache HTTP Server 2.4.66 (Ubuntu)
+
 ==================================================
 3. OS DETECTION SCAN
-==================================================
+====================
 
 Command:
 sudo nmap -O 192.168.237.129
@@ -49,17 +53,22 @@ Network Distance:
 
 ==================================================
 4. OPEN PORT ANALYSIS
-==================================================
+=====================
 
-Port: 80/tcp
-Service: HTTP
-Software: Apache HTTP Server 2.4.66 (Ubuntu)
+Port:
+80/tcp
+
+Service:
+HTTP
+
+Software:
+Apache HTTP Server 2.4.66 (Ubuntu)
 
 Purpose:
 HTTP is used to deliver web pages and other web resources
 from a web server to clients.
 
-Security Risk:
+Security Consideration:
 An exposed HTTP service increases the attack surface of the
 system. HTTP traffic is not encrypted by default. For a
 production application handling sensitive information, HTTPS
@@ -67,22 +76,24 @@ should be implemented.
 
 Assessment:
 The port was intentionally exposed because Apache was installed
-for this local cybersecurity laboratory. No critical vulnerability
-was identified during the Nmap scans performed.
+for this local cybersecurity laboratory.
+
+No critical vulnerability was established from the Nmap scans
+performed for this task.
 
 ==================================================
 5. OS DETECTION ANALYSIS
-==================================================
+========================
 
 Nmap was unable to identify an exact operating system match.
 
-The result should not be interpreted as a vulnerability. It
-indicates that Nmap could not confidently match the target's
-TCP/IP fingerprint to a specific operating system.
+This should not be interpreted as a vulnerability. It indicates
+that Nmap could not confidently match the target's TCP/IP
+fingerprint to a specific operating system.
 
 ==================================================
 6. SUMMARY
-==================================================
+==========
 
 The basic scan identified one open TCP port:
 
@@ -93,6 +104,7 @@ No other open ports were identified in the default Nmap scan.
 The target was successfully reached from Kali Linux through an
 isolated VMware Host-only network.
 
-No critical or high-risk vulnerability was established through
-the scans performed for this task.
-
+No critical vulnerability was established through the Nmap
+scans performed for this task. Further security testing would
+be required to determine whether vulnerabilities exist beyond
+the scope of these network scans.
