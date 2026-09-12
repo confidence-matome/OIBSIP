@@ -1,11 +1,12 @@
 OASIS INFOBYTE — SECURITY ANALYST
 TASK 1: BASIC NETWORK SCANNING WITH NMAP
 
-Assessment Date: 28 August 2026
+Assessment Date: 12 September 2026
 Target IP: 192.168.237.129
 Testing Machine: Kali Linux
 Target Machine: Ubuntu Linux
 Network: VMware Host-only Network
+
 
 ==================================================
 1. BASIC NMAP SCAN
@@ -14,84 +15,94 @@ Network: VMware Host-only Network
 Command:
 nmap 192.168.237.129
 
-Result:
-Host is up.
+Output:
 
-Open Port:
-80/tcp    open    http
+Starting Nmap 7.99 ( https://nmap.org ) at 2026-09-12 12:25 -0400
+Nmap scan report for 192.168.237.129
+Host is up (0.0014s latency).
+Not shown: 997 filtered tcp ports (no-response)
+PORT    STATE  SERVICE
+22/tcp  closed ssh
+80/tcp  open   http
+443/tcp closed https
+MAC Address: 00:0C:29:C6:61:D6 (VMware)
+
+Nmap done: 1 IP address (1 host up) scanned in 9.56 seconds
+
 
 ==================================================
-2. SERVICE VERSION SCAN
+2. SERVICE AND VERSION DETECTION
 ==================================================
 
 Command:
 nmap -sV 192.168.237.129
 
-Result:
-80/tcp    open    http    Apache httpd 2.4.66 (Ubuntu)
+Output:
+
+Starting Nmap 7.99 ( https://nmap.org ) at 2026-09-12 12:26 -0400
+Nmap scan report for 192.168.237.129
+Host is up (0.0018s latency).
+Not shown: 997 filtered tcp ports (no-response)
+PORT    STATE  SERVICE VERSION
+22/tcp  closed ssh
+80/tcp  open   http    Apache httpd 2.4.66 ((Ubuntu))
+443/tcp closed https
+MAC Address: 00:0C:29:C6:61:D6 (VMware)
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 18.49 seconds.
+
 
 ==================================================
-3. OS DETECTION SCAN
+3. OS DETECTION
 ==================================================
 
 Command:
 sudo nmap -O 192.168.237.129
 
-Result:
-Host is up.
-80/tcp    open    http
+Output:
 
-OS Detection:
-No exact OS matches for host.
+Starting Nmap 7.99 ( https://nmap.org ) at 2026-09-12 12:27 -0400
+Nmap scan report for 192.168.237.129
+Host is up (0.039s latency).
+Not shown: 997 filtered tcp ports (no-response)
+PORT    STATE  SERVICE
+22/tcp  closed ssh
+80/tcp  open   http
+443/tcp closed https
+MAC Address: 00:0C:29:C6:61:D6 (VMware)
+Aggressive OS guesses: Linux 4.15 - 5.19 (90%), Linux 2.6.32 - 3.13 (90%), Linux 4.15 (90%), Linux 5.0 - 5.14 (89%), OpenWrt 22.03 (Linux 5.10) (89%), MikroTik RouterOS 7.2 - 7.5 (Linux 5.6.3) (89%), HP P2000 G3 NAS device (89%), Linux 6.18 (88%), Linux 2.6.23 - 2.6.38 (88%), Linux 3.2 - 3.8 (88%)
+No exact OS matches for host (test conditions non-ideal).
+Network Distance: 1 hop
 
-Network Distance:
-1 hop
+OS detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 17.11 seconds.
 
-==================================================
-4. OPEN PORT ANALYSIS
-==================================================
-
-Port: 80/tcp
-Service: HTTP
-Software: Apache HTTP Server 2.4.66 (Ubuntu)
-
-Purpose:
-HTTP is used to deliver web pages and other web resources
-from a web server to clients.
-
-Security Risk:
-An exposed HTTP service increases the attack surface of the
-system. HTTP traffic is not encrypted by default. For a
-production application handling sensitive information, HTTPS
-should be implemented.
-
-Assessment:
-The port was intentionally exposed because Apache was installed
-for this local cybersecurity laboratory. No critical vulnerability
-was identified during the Nmap scans performed.
 
 ==================================================
-5. OS DETECTION ANALYSIS
+4. KEY FINDINGS
 ==================================================
 
-Nmap was unable to identify an exact operating system match.
+1. The target host 192.168.237.129 was reachable.
 
-The result should not be interpreted as a vulnerability. It
-indicates that Nmap could not confidently match the target's
-TCP/IP fingerprint to a specific operating system.
+2. Port 80/tcp was open and running HTTP.
+
+3. Service detection identified:
+   Apache httpd 2.4.66 (Ubuntu)
+
+4. Port 22/tcp (SSH) was closed.
+
+5. Port 443/tcp (HTTPS) was closed.
+
+6. 997 TCP ports were reported as filtered with no response.
+
+7. OS detection produced several Linux-based OS guesses with
+   confidence levels between 88% and 90%.
+
+8. Nmap did not identify an exact operating system because
+   test conditions were non-ideal.
+
 
 ==================================================
-6. SUMMARY
+END OF RESULTS
 ==================================================
-
-The basic scan identified one open TCP port:
-
-80/tcp — HTTP — Apache 2.4.66 (Ubuntu)
-
-No other open ports were identified in the default Nmap scan.
-
-The target was successfully reached from Kali Linux through an
-isolated VMware Host-only network.
-
-No critical or high-risk vulnerability was established through
-the scans performed for this task.
