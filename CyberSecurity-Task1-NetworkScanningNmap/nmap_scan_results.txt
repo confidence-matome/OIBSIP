@@ -1,1 +1,98 @@
+OASIS INFOBYTE — SECURITY ANALYST
+TASK 1: BASIC NETWORK SCANNING WITH NMAP
+
+Assessment Date: 28 August 2026
+Target IP: 192.168.237.129
+Testing Machine: Kali Linux
+Target Machine: Ubuntu Linux
+Network: VMware Host-only Network
+
+==================================================
+1. BASIC NMAP SCAN
+==================================================
+
+Command:
+nmap 192.168.237.129
+
+Result:
+Host is up.
+
+Open Port:
+80/tcp    open    http
+
+==================================================
+2. SERVICE VERSION SCAN
+==================================================
+
+Command:
+nmap -sV 192.168.237.129
+
+Result:
+80/tcp    open    http    Apache httpd 2.4.66 (Ubuntu)
+
+==================================================
+3. OS DETECTION SCAN
+==================================================
+
+Command:
+sudo nmap -O 192.168.237.129
+
+Result:
+Host is up.
+80/tcp    open    http
+
+OS Detection:
+No exact OS matches for host.
+
+Network Distance:
+1 hop
+
+==================================================
+4. OPEN PORT ANALYSIS
+==================================================
+
+Port: 80/tcp
+Service: HTTP
+Software: Apache HTTP Server 2.4.66 (Ubuntu)
+
+Purpose:
+HTTP is used to deliver web pages and other web resources
+from a web server to clients.
+
+Security Risk:
+An exposed HTTP service increases the attack surface of the
+system. HTTP traffic is not encrypted by default. For a
+production application handling sensitive information, HTTPS
+should be implemented.
+
+Assessment:
+The port was intentionally exposed because Apache was installed
+for this local cybersecurity laboratory. No critical vulnerability
+was identified during the Nmap scans performed.
+
+==================================================
+5. OS DETECTION ANALYSIS
+==================================================
+
+Nmap was unable to identify an exact operating system match.
+
+The result should not be interpreted as a vulnerability. It
+indicates that Nmap could not confidently match the target's
+TCP/IP fingerprint to a specific operating system.
+
+==================================================
+6. SUMMARY
+==================================================
+
+The basic scan identified one open TCP port:
+
+80/tcp — HTTP — Apache 2.4.66 (Ubuntu)
+
+No other open ports were identified in the default Nmap scan.
+
+The target was successfully reached from Kali Linux through an
+isolated VMware Host-only network.
+
+No critical or high-risk vulnerability was established through
+the scans performed for this task.
 
